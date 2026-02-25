@@ -30,7 +30,7 @@ pipeline {
           export KUBECONFIG=/var/lib/jenkins/.kube/config
           kubectl config use-context minikube
           kubectl set image deployment/devops-demo devops-demo=${DOCKERHUB_REPO}:${IMAGE_TAG} || true
-          kubectl rollout status deployment/devops-demo --timeout=5m
+          kubectl rollout status deployment/devops-demo
         '''
       }
     }
