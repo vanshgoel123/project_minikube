@@ -27,9 +27,9 @@ pipeline {
     stage('Deploy to Kubernetes') {
       steps {
         sh '''
-          export KUBECONFIG=~/.kube/config
+          export KUBECONFIG=$HOME/.kube/config
           kubectl config use-context minikube
-          kubectl set image deployment/devops-demo devops-demo=${DOCKERHUB_REPO}:${IMAGE_TAG} --record || true
+          kubectl set image deployment/devops-demo devops-demo=${DOCKERHUB_REPO}:${IMAGE_TAG} || true
           kubectl rollout status deployment/devops-demo
         '''
       }
