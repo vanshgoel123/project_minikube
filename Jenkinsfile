@@ -26,11 +26,13 @@ pipeline {
     }
     stage('Deploy to Kubernetes') {
       steps {
+        echo "Deploying to Kubernetes cluster..."
         sh '''
           export KUBECONFIG=/var/lib/jenkins/.kube/config
           kubectl config use-context minikube
-          kubectl set image deployment/devops-demo devops-demo=${DOCKERHUB_REPO}:${IMAGE_TAG} || true
-          kubectl rollout status deployment/devops-demo
+          kubectl set image deployment/devops-demo devops-demo=${DOCKERHUB_REPO}:${IMAGE_TAG}
+          kubectl rollout status deployment/devops-demo --timeout=5m
+          echo "Deployment successful! Service running at: http://192.168.58.2:30080"
         '''
       }
     }
